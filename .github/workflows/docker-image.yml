@@ -1,7 +1,11 @@
 name: Docker Image CI
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    - dev
+    - main
+    - feat/*
+    
 
 jobs:
 
