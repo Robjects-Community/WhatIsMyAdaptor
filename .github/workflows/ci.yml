@@ -12,6 +12,7 @@ on:
       - main
       - development
       - staging
+  workflow_dispatch:
 
 jobs:
   test:
