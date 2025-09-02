@@ -58,6 +58,7 @@ services:
     image: mysql:8.4.3
     platform: linux/amd64
     environment:
+      DB_HOST: mysql
       MYSQL_ROOT_PASSWORD: password
       DB_USERNAME: cms_user
       DB_PASSWORD: password
@@ -125,3 +126,11 @@ services:
 network:
   default:
     driver: bridge
+
+volumes:
+  mysql_data:
+    bind:
+      - /volume1/docker/whatismyadapter_cms/docker/mysql/mysql_data:
+  rabbitmq_data:
+  jenkins_home:
+  mailpit_data:
