@@ -7,6 +7,7 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
+    container_name: cms
     ports:
       - "6660:80"
     volumes:
@@ -64,8 +65,7 @@ services:
     volumes:
       - /volume1/docker/whatismyadapter-cms/docker/mysql/mysql_data:/var/lib/mysql:rw
       - /volume1/docker/whatismyadapter-cms/docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:rw
-    networks:
-      - mysql_network
+
 
   phpmyadmin:
     image: phpmyadmin
@@ -125,8 +125,6 @@ services:
     depends_on:
       - willowcms
 
-env_file:
-  - stack.env
 
 volumes:
   mysql_data:
