@@ -7,7 +7,7 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    ports: 
+    ports:
       - "8080:80"
     volumes:
       - .:/var/www/html/
@@ -71,7 +71,7 @@ services:
   phpmyadmin:
     image: phpmyadmin
     ports:
-      - 8082:80
+      - 8882:80
     environment:
       - PMA_HOST=mysql
       - PMA_USER=root
@@ -85,8 +85,8 @@ services:
     privileged: true
     user: root
     ports:
-      - "8081:8080"
-      - "50000:50000"
+      - "8881:8080"
+      - "8880:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
@@ -116,7 +116,7 @@ services:
       - HTTP_USER=root
       - HTTP_PASSWORD=root
     ports:
-      - "8084:8081"
+      - "6379:8081"
     depends_on:
       - willowcms
 
