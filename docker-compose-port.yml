@@ -10,9 +10,9 @@ services:
     ports:
       - "6660:80"
     volumes:
-      - /volume1/docker/whatismyadapter_cms/.:/var/www/html/:rw
-      - /volume1/docker/whatismyadapter_cms/docker/willowcms/config/app/cms_app_local.php:/var/www/html/config/app_local.php:rw
-      - /volume1/docker/whatismyadapter_cms/logs/nginx:/var/log/nginx/:rw
+      - /volume1/docker/whatismyadapter-cms/.:/var/www/html/:rw
+      - /volume1/docker/whatismyadapter-cms/docker/willowcms/config/app/cms_app_local.php:/var/www/html/config/app_local.php:rw
+      - /volume1/docker/whatismyadapter-cms/logs/nginx:/var/log/nginx/:rw
     environment:
       - APP_NAME=WillowCMS
       - DEBUG=true
@@ -74,8 +74,8 @@ services:
     ports:
       - "3310:3306"
     volumes:
-      - /volume1/docker/whatismyadapter_cms/docker/mysql/mysql_data:/var/lib/mysql:rw
-      - /volume1/docker/whatismyadapter_cms/docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:rw
+      - /volume1/docker/whatismyadapter-cms/docker/mysql/mysql_data:/var/lib/mysql:rw
+      - /volume1/docker/whatismyadapter-cms/docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:rw
 
   phpmyadmin:
     image: phpmyadmin
@@ -97,9 +97,9 @@ services:
       - "6661:8080"
       - "6565:50000"
     volumes:
-      - /volume1/docker/whatismyadapter_cms/docker/jenkins:/var/jenkins:rw
+      - /volume1/docker/whatismyadapter-cms/docker/jenkins:/var/jenkins:rw
       - /var/run/docker.sock:/var/run/docker.sock:rw
-      - /volume1/docker/whatismyadapter_cms/docker/jenkins/jenkins.yaml:/var/jenkins_home/jenkins.yaml:rw
+      - /volume1/docker/whatismyadapter-cms/docker/jenkins/jenkins.yaml:/var/jenkins_home/jenkins.yaml:rw
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=true
 
@@ -109,7 +109,7 @@ services:
       - "6625:1025"
       - "6025:8025"
     volumes:
-      - /volume1/docker/whatismyadapter_cms/docker/mailpit:/data:rw
+      - /volume1/docker/whatismyadapter-cms/docker/mailpit:/data:rw
     environment:
       - MP_MAX_MESSAGES=5000
       - MP_DATABASE=/data/mailpit.db
