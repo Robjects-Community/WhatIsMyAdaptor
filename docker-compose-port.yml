@@ -57,20 +57,18 @@ services:
   mysql:
     image: mysql:8.4.3
     platform: linux/amd64
-    user: 1026:100
     hostname: mysql
     environment:
-    - MYSQL_RANDOM_ROOT_PASSWORD: true
-    - MYSQL_ALLOW_EMPTY_PASSWORD: trueq
-    - MYSQL_ROOT_PASSWORD: password
-      MYSQL_USER: cms_user
-      MYSQL_PASSWORD: password
-      MYSQL_DATABASE: cms
-      DB_HOST: mysql
-      MYSQL_ROOT_PASSWORD: password
-      DB_USERNAME: cms_user
-      DB_PASSWORD: password
-      DB_DATABASE: cms
+      - MYSQL_RANDOM_ROOT_PASSWORD: true
+      - MYSQL_ALLOW_EMPTY_PASSWORD: true
+      - MYSQL_ROOT_PASSWORD: password
+      - MYSQL_USER: cms_user
+      - MYSQL_PASSWORD: password
+      - MYSQL_DATABASE: cms
+      - DB_HOST: mysql
+      - DB_USERNAME: cms_user
+      - DB_PASSWORD: password
+      - DB_DATABASE: cms
     ports:
       - "3310:3306"
     volumes:
@@ -83,6 +81,12 @@ services:
       - 6662:80
     environment:
       - PMA_HOST=mysql
+      - PMA_PORT=3306
+      - DB_DATABASE=cms
+      - DB_USERNAME=cms_user
+      - DB_PASSWORD=password
+      - DB_HOST=mysql
+      - PMA_DB=cms
       - PMA_USER=root
       - PMA_PASSWORD=password
       - UPLOAD_LIMIT=300M
@@ -129,5 +133,13 @@ services:
     depends_on:
       - willowcms
 
+env_file:
+  - stack.env
 
-
+volumes:
+  mysql_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/whatismyadapter-cms/docker/mysql/mysql_data
+      o: bind
