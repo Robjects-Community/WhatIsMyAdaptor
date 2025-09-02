@@ -88,7 +88,7 @@ services:
       - "6661:8080"
       - "6565:50000"
     volumes:
-      - /volume1/docker/whatismyadapter_cms/docker/jenkins:/var/jenkins_home:rw
+      - /volume1/docker/whatismyadapter_cms/docker/jenkins:/var/jenkins:rw
       - /var/run/docker.sock:/var/run/docker.sock:rw
       - /volume1/docker/whatismyadapter_cms/docker/jenkins/jenkins.yaml:/var/jenkins_home/jenkins.yaml:rw
     environment:
@@ -100,7 +100,7 @@ services:
       - "6625:1025"
       - "6025:8025"
     volumes:
-      - mailpit_data:/data:rw
+      - /volume1/docker/whatismyadapter_cms/docker/mailpit/mailpit:/data:rw
     environment:
       - MP_MAX_MESSAGES=5000
       - MP_DATABASE=/data/mailpit.db
