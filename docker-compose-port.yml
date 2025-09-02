@@ -100,7 +100,7 @@ services:
       - "6625:1025"
       - "6025:8025"
     volumes:
-      - /volume1/docker/whatismyadapter_cms/docker/mailpit/mailpit:/data:rw
+      - /volume1/docker/whatismyadapter_cms/docker/mailpit:/data:rw
     environment:
       - MP_MAX_MESSAGES=5000
       - MP_DATABASE=/data/mailpit.db
