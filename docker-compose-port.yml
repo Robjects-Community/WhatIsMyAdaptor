@@ -55,10 +55,14 @@ services:
       - APP_FULL_BASE_URL=http://localhost:6660
 
   mysql:
-    image: mariadb:11.4-noble #LTS Long Time Support Until May 29, 2029.
+    image: mysql:8.4.3
     platform: linux/amd64
     user: 1026:100
+    hostname: mysql
     environment:
+    - MYSQL_RANDOM_ROOT_PASSWORD: true
+    - MYSQL_ALLOW_EMPTY_PASSWORD: trueq
+    - MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: cms_user
       MYSQL_PASSWORD: password
       MYSQL_DATABASE: cms
@@ -127,8 +131,3 @@ services:
 
 
 
-volumes:
-  mysql_data:
-  rabbitmq_data:
-  jenkins_home:
-  mailpit_data:
