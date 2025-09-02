@@ -121,3 +121,7 @@ services:
       - willowcms
 
 
+
+network:
+  default:
+    driver: bridge
