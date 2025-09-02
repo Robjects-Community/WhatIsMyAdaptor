@@ -121,5 +121,3 @@ services:
       - willowcms
 
 
-volumes:
-  mailpit_data:
