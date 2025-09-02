@@ -130,8 +130,6 @@ network:
 
 volumes:
   mysql_data:
-    bind:
-      - /volume1/docker/whatismyadapter_cms/docker/mysql/mysql_data:
   rabbitmq_data:
   jenkins_home:
   mailpit_data:
