@@ -57,23 +57,15 @@ services:
   mysql:
     image: mysql:8.4.3
     platform: linux/amd64
-    hostname: mysql
-    environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD: true
-      - MYSQL_ALLOW_EMPTY_PASSWORD: true
-      - MYSQL_ROOT_PASSWORD: password
-      - MYSQL_USER: cms_user
-      - MYSQL_PASSWORD: password
-      - MYSQL_DATABASE: cms
-      - DB_HOST: mysql
-      - DB_USERNAME: cms_user
-      - DB_PASSWORD: password
-      - DB_DATABASE: cms
+    env_file:
+      - stack.env
     ports:
       - "3310:3306"
     volumes:
       - /volume1/docker/whatismyadapter-cms/docker/mysql/mysql_data:/var/lib/mysql:rw
       - /volume1/docker/whatismyadapter-cms/docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:rw
+    networks:
+      - mysql_network
 
   phpmyadmin:
     image: phpmyadmin
