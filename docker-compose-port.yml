@@ -2,6 +2,7 @@ services:
 
   willowcms:
     build:
+      user: 1026:100
       context: .
       dockerfile: docker/willowcms/Dockerfile
       args:
