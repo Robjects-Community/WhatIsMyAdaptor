@@ -48,13 +48,19 @@ services:
       - TRANSLATE_API_KEY=
       - QUEUE_DEFAULT_URL=redis://root:root@127.0.0.1:6379/0
       - QUEUE_TEST_URL=redis://root:root@127.0.0.1:6379/0
-      - EXPERIMENTAL_TESTS=Off
+      - EXPERIMENTAL_TESTS=On
       - WILLOW_ADMIN_USERNAME=admin
       - WILLOW_ADMIN_PASSWORD=password
       - WILLOW_ADMIN_EMAIL=admin@test.com
       - APP_FULL_BASE_URL=http://localhost:6660
+      - TRUSTED_PROXIES=192.168.132.109
+      - WHATISMYADAPTER_TRUSTED_DOMAINS=synDrive synDrive.local localhost whatismyadapter.robjects.me adaptercms.robjects.me *.robjects.me whatismyadapter-cms.robjects.me 192.168.132.109
+      - OVERWRITE_HOST=whatismyadapter.robjects.me
+      - OVERWRITE_PROTOCOL=https
+      - MYSQL_HOST=db
+
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
+      test: ["CMD", "curl", "-f", "http://127.0.0.:80/fpm-ping"]
       interval: 10s
       timeout: 5s
 
@@ -67,14 +73,16 @@ services:
     env_file:
       - stack.env
     ports:
-      - "2211:3306"
+      - "3310:3306"
     volumes:
       - /volume1/docker/whatismyadapter-cms/docker/mariadb/mariadb_data:/var/lib/mysql:rw
       - /volume1/docker/whatismyadapter-cms/docker/mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql
+      -       - /volume1/docker/whatismyadapter-cms/docker/mariadb/mariadb_data:/etc/mysql/conf.d:rw
+
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=cms
-      - MYSQL_USER=cms_user
+      - MYSQL_USER=robjects
       - MYSQL_PASSWORD=password
       - TZ=Europe/London
     restart: on-failure:5
