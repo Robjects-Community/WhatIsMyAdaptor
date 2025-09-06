@@ -85,7 +85,7 @@ services:
       - PMA_DB=cms
       - PMA_USER=root
       - PMA_PASSWORD=password
-      - UPLOAD_LIMIT=300M
+      - UPLOAD_LIMIT=1000M
 
   jenkins:
     build:
