@@ -56,7 +56,7 @@ services:
       - APP_FULL_BASE_URL=http://localhost:6660
 
   mysql:
-    image: mariadb:11.4-noble #LTS Long Time Support Until May 29, 2029.
+    image: mariadb:noble #LTS Long Time Support Until May 29, 2029.
     security_opt:
       - no-new-privileges:true
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-read-only-compressed=OFF
@@ -65,8 +65,8 @@ services:
     ports:
       - "2211:3306"
     volumes:
-      - /volume1/docker/whatismyadapter-cms/docker/mysql/mysql_data:/var/lib/mysql:rw
-      - /volume1/docker/whatismyadapter-cms/docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:rw
+      - mysql_data:/var/lib/mysql:rw
+      - mysql/init.sql:rw
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=cms
@@ -135,9 +135,14 @@ services:
 
 
 volumes:
+  mysql:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/whatismyadapter-cms/docker/mysql:rw
   mysql_data:
     driver: local
     driver_opts:
       type: none
-      device: /volume1/docker/whatismyadapter-cms/docker/mysql/mysql_data
+      device: /volume1/docker/whatismyadapter-cms/docker/mysql/mysql_data:rw
       o: bind
