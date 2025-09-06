@@ -56,6 +56,7 @@ services:
       - APP_FULL_BASE_URL=http://localhost:6660
 
   mysql:
+    container_name: willowcms-mysql-mariadb
     image: mariadb:11.4-noble #LTS Long Time Support Until May 29, 2029.
     security_opt:
       - no-new-privileges:true
