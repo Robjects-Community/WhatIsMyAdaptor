@@ -109,3 +109,9 @@ CakePHPBook.txt
 # default_data exports
 default_data
 WARP.md
+
+# Docker folder
+/docker/mysql/*
+/docker/mariadb/*
+/docker/adminer/*
+/docker/mailpit/*

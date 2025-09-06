@@ -6,15 +6,20 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    # container_name: whatismyadapter
     ports:
       - "6660:80"
       - 4445:443 # This port is used for HTTPS
       - 6665:3000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 10s
+      timeout: 5s
+    env_file:
+      - stack.env
     volumes:
-      - /volume1/docker/whatismyadapter-cms/.:/var/www/html/:rw
-      - /volume1/docker/whatismyadapter-cms/docker/willowcms/config/app/cms_app_local.php:/var/www/html/config/app_local.php:rw
-      - /volume1/docker/whatismyadapter-cms/logs/nginx:/var/log/nginx/:rw
+      - .:/var/www/html/
+      - ./docker/willowcms/config/app/cms_app_local.php:/var/www/html/config/app_local.php
+      - ./:/var/log/nginx/logs
     environment:
       - APP_NAME=WillowCMS
       - DEBUG=true
@@ -55,14 +60,10 @@ services:
       - WILLOW_ADMIN_PASSWORD=password
       - WILLOW_ADMIN_EMAIL=admin@test.com
       - APP_FULL_BASE_URL=http://localhost:6660
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
-      interval: 10s
-      timeout: 5s
 
   db:
     image: mariadb:11.4-noble  #LTS Long Time Support Until May 29, 2029.
-    container_name: whatismyadapter-db
+    container_name: db
     security_opt:
       - no-new-privileges:true
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-read-only-compressed=OFF
@@ -71,8 +72,8 @@ services:
     ports:
       - "2211:3306"
     volumes:
-      - mysql_data:/var/lib/mysql:rw
-      - mysql/init.sql:rw
+      - ./docker/mariadb/mariadb_data:/var/lib/mysql:rw
+      - ./docker/mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=cms
@@ -80,6 +81,8 @@ services:
       - MYSQL_PASSWORD=password
       - TZ=Europe/London
     restart: on-failure:5
+
+
   phpmyadmin:
     image: phpmyadmin
     ports:
@@ -96,15 +99,18 @@ services:
       - PMA_PASSWORD=password
       - UPLOAD_LIMIT=1024M
       - MYSQL_ROOT_PASSWORD=password
-      - TZ=Europe/London
+      - TZ=America/Chicago
 
+
+# Adminer service for database management
+  # This service provides a web interface for managing the database and is configured to use specific ports and security options.
   adminer:
     image: adminer
     hostname: adminer:latest
     security_opt:
       - no-new-privileges:true
     ports:
-      - 6262:8080
+      - 8232:8080
     volumes:
       - adminer_data:/var/www/html:rw
       - adminer_sql:/var/lib/mysql:rw
@@ -115,23 +121,25 @@ services:
       - ADMINER_DEFAULT_PASSWORD=password
       - TZ=Europe/London
 
-  jenkins:
-    build:
-      context: .
-      dockerfile: docker/jenkins/Dockerfile
-    privileged: true
-    user: root
-    ports:
-      - "6661:8080"
-      - "6565:50000"
-    volumes:
-      - ${JENKINS_DIR:-/volume1/docker/whatismyadapter-cms/docker/jenkins}:/var/jenkins:rw
-      - /var/run/docker.sock:/var/run/docker.sock:rw
-      - ${JENKINS_DIR:-/volume1/docker/whatismyadapter-cms/docker/jenkins}/jenkins.yaml:/var/jenkins_home/jenkins.yaml:rw
-    environment:
-      - JAVA_OPTS=-Djenkins.install.runSetupWizard=true
+
+  # jenkins:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/jenkins/Dockerfile
+  #   privileged: true
+  #   user: root
+  #   ports:
+  #     - "6661:8080"
+  #     - "6565:50000"
+  #   volumes:
+  #     - ${JENKINS_DIR:-/volume1/docker/whatismyadapter-cms/docker/jenkins}:/var/jenkins:rw
+  #     - /var/run/docker.sock:/var/run/docker.sock:rw
+  #     - ${JENKINS_DIR:-/volume1/docker/whatismyadapter-cms/docker/jenkins}/jenkins.yaml:/var/jenkins_home/jenkins.yaml:rw
+  #   environment:
+  #     - JAVA_OPTS=-Djenkins.install.runSetupWizard=true
 
   mailpit:
+
     image: axllent/mailpit:latest
     ports:
       - "6625:1025"
@@ -139,7 +147,8 @@ services:
     env_file:
       - stack.env
     volumes:
-      - ${MAILPIT_DIR:-/volume1/docker/whatismyadapter-cms/docker/mailpit}:/data:rw
+      # - ${MAILPIT_DIR:-/volume1/docker/whatismyadapter-cms/docker/mailpit}:/data:rw
+      - mailpit_data:/data:rw
     environment:
       - MP_MAX_MESSAGES=5000
       - MP_DATABASE=/data/mailpit.db
@@ -163,14 +172,8 @@ services:
 
 
 volumes:
-  mysql:
-    driver: local
-    driver_opts:
-      type: none
-      device: /volume1/docker/whatismyadapter-cms/docker/mysql:rw
-  mysql_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: /volume1/docker/whatismyadapter-cms/docker/mysql/mysql_data:rw
-      o: bind
+  mariadb_data:
+  jenkins_home:
+  mailpit_data:
+  adminer_data:
+  adminer_sql:
