@@ -3,12 +3,10 @@ services:
     build:
       context: .
       dockerfile: docker/willowcms/Dockerfile
-      args:
-        - UID=${UID:-1000}
-        - GID=${GID:-1000}
-    # container_name: whatismyadapter
+    user: 1026:20
+    container_name: whatismyadapter-cms
     ports:
-      - "6660:80"
+      - 6660:80
       - 4445:443 # This port is used for HTTPS
       - 6665:3000
     volumes:
@@ -23,12 +21,12 @@ services:
       - APP_DEFAULT_TIMEZONE=Europe/London
       - SECURITY_SALT=developmentsalt
       - DB_HOST=db
-      - DB_USERNAME=cms_user
+      - DB_USERNAME=robjects
       - DB_PASSWORD=password
       - DB_DATABASE=cms
       - DB_PORT=3306
       - TEST_DB_HOST=db
-      - TEST_DB_USERNAME=cms_user_test
+      - TEST_DB_USERNAME=robjects_test
       - TEST_DB_PASSWORD=password
       - TEST_DB_DATABASE=cms_test
       - TEST_DB_PORT=3306
