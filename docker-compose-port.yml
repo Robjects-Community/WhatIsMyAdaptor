@@ -7,7 +7,6 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    container_name: cms
     ports:
       - "6660:80"
     volumes:
