@@ -77,7 +77,7 @@ services:
     volumes:
       - /volume1/docker/whatismyadapter-cms/docker/mariadb/mariadb_data:/var/lib/mysql:rw
       - /volume1/docker/whatismyadapter-cms/docker/mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql
-      -       - /volume1/docker/whatismyadapter-cms/docker/mariadb/mariadb_data:/etc/mysql/conf.d:rw
+      - /volume1/docker/whatismyadapter-cms/docker/mariadb/mariadb_data:/etc/mysql/conf.d:rw
 
     environment:
       - MYSQL_ROOT_PASSWORD=password
