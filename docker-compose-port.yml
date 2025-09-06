@@ -62,7 +62,7 @@ services:
 
   db:
     image: mariadb:11.4-noble  #LTS Long Time Support Until May 29, 2029.
-    container_name: whatismyadapter-db
+    container_name: db
     security_opt:
       - no-new-privileges:true
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-read-only-compressed=OFF
