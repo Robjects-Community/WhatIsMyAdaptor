@@ -106,8 +106,8 @@ services:
     ports:
       - 6262:8080
     volumes:
-      - adminer_data:/var/www/html:rw
-      - adminer_sql:/var/lib/mysql:rw
+      - /volume1/docker/whatismyadapter-cms/.:/var/www/html:rw
+      - /volume1/docker/whatismyadapter-cms/docker/mariadb/mariadb_data:/var/lib/mysql:rw
     environment:
       - ADMINER_DEFAULT_SERVER=db
       - ADMINER_DEFAULT_DB=db
@@ -176,4 +176,4 @@ volumes:
       o: bind
   adminer_data:
   adminer_sql:
-  
+
