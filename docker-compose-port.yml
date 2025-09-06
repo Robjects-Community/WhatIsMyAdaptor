@@ -61,7 +61,7 @@ services:
     env_file:
       - stack.env
     ports:
-      - "3310:3306"
+      - "2211:3306"
     volumes:
       - /volume1/docker/whatismyadapter-cms/docker/mysql/mysql_data:/var/lib/mysql:rw
       - /volume1/docker/whatismyadapter-cms/docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:rw
