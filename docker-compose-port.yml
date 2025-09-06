@@ -71,8 +71,8 @@ services:
     ports:
       - "2211:3306"
     volumes:
-      - mysql_data:/var/lib/mysql:rw
-      - mysql/init.sql:rw
+      - /volume1/docker/whatismyadapter-cms/docker/mariadb/mariadb_data:/var/lib/mysql:rw
+      - /volume1/docker/whatismyadapter-cms/docker/mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=cms
@@ -167,10 +167,10 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /volume1/docker/whatismyadapter-cms/docker/mysql:rw
-  mysql_data:
+      device: /volume1/docker/whatismyadapter-cms/docker/mariadb:rw
+  mariadb_data:
     driver: local
     driver_opts:
       type: none
-      device: /volume1/docker/whatismyadapter-cms/docker/mysql/mysql_data:rw
+      device: /volume1/docker/whatismyadapter-cms/docker/mariadb/mysql_data:rw
       o: bind
