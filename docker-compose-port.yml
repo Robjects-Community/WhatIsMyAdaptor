@@ -21,12 +21,12 @@ services:
       - APP_DEFAULT_LOCALE=en_GB
       - APP_DEFAULT_TIMEZONE=Europe/London
       - SECURITY_SALT=developmentsalt
-      - DB_HOST=mysql
+      - DB_HOST=db
       - DB_USERNAME=cms_user
       - DB_PASSWORD=password
       - DB_DATABASE=cms
       - DB_PORT=3306
-      - TEST_DB_HOST=mysql
+      - TEST_DB_HOST=db
       - TEST_DB_USERNAME=cms_user_test
       - TEST_DB_PASSWORD=password
       - TEST_DB_DATABASE=cms_test
@@ -55,8 +55,7 @@ services:
       - WILLOW_ADMIN_EMAIL=admin@test.com
       - APP_FULL_BASE_URL=http://localhost:6660
 
-  mysql:
-    container_name: willowcms-mysql-mariadb
+  db:
     image: mariadb:11.4-noble #LTS Long Time Support Until May 29, 2029.
     security_opt:
       - no-new-privileges:true
@@ -77,12 +76,12 @@ services:
     ports:
       - 6662:80
     environment:
-      - PMA_HOST=mysql
+      - PMA_HOST=db
       - PMA_PORT=3306
       - DB_DATABASE=cms
       - DB_USERNAME=cms_user
       - DB_PASSWORD=password
-      - DB_HOST=mysql
+      - DB_HOST=db
       - PMA_DB=cms
       - PMA_USER=root
       - PMA_PASSWORD=password
