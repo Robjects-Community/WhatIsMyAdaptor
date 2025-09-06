@@ -174,3 +174,6 @@ volumes:
       type: none
       device: /volume1/docker/whatismyadapter-cms/docker/mariadb/mysql_data:rw
       o: bind
+  adminer_data:
+  adminer_sql:
+  
