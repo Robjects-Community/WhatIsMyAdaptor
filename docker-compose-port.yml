@@ -55,7 +55,7 @@ services:
       - WILLOW_ADMIN_EMAIL=admin@test.com
       - APP_FULL_BASE_URL=http://localhost:6660
 
-  db:
+  mysql:
     image: mariadb:11.4-noble #LTS Long Time Support Until May 29, 2029.
     security_opt:
       - no-new-privileges:true
@@ -69,6 +69,12 @@ services:
       - /volume1/docker/whatismyadapter-cms/docker/mysql/conf.d:/etc/mysql/conf.d:rw
 
       - /volume1/docker/whatismyadapter-cms/docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:rw
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=cms
+      - MYSQL_USER=cms_user
+      - MYSQL_PASSWORD=password
+      - TZ=Europe/London
 
 
   phpmyadmin:
