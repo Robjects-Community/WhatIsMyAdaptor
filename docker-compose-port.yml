@@ -58,6 +58,7 @@ services:
   db:
     image: mariadb:11.4-noble  #LTS Long Time Support Until May 29, 2029.
     container_name: db
+    user: 1026:100
     hostname: db
     security_opt:
       - no-new-privileges:true
@@ -81,7 +82,7 @@ services:
     ports:
       - 6662:80
     environment:
-      - PMA_HOST=willowcms-db
+      - PMA_HOST=db
       - PMA_PORT=3306
       - DB_DATABASE=cms
       - DB_USERNAME=cms_user

@@ -7,11 +7,11 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     ports:
-      - "6660:80"
+      - "6667:80"
       - 4445:443 # This port is used for HTTPS
       - 6665:3000
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
       interval: 10s
       timeout: 5s
     env_file:
