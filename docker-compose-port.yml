@@ -1,12 +1,7 @@
 services:
   willowcms:
-    build:
-      context: .
-      dockerfile: docker/willowcms/Dockerfile
-      args:
-        - UID=${UID:-1026}
-        - GID=${GID:-100}
-    # container_name: whatismyadapter
+    build: ./docker/willowcms
+    container_name: willowcms
     ports:
       - "6660:80"
       - 4445:443 # This port is used for HTTPS
@@ -22,7 +17,7 @@ services:
       - APP_DEFAULT_LOCALE=en_GB
       - APP_DEFAULT_TIMEZONE=Europe/London
       - SECURITY_SALT=developmentsalt
-      - DB_HOST=db
+      - DB_HOST=willowcms-db
       - DB_USERNAME=cms_user
       - DB_PASSWORD=password
       - DB_DATABASE=cms
@@ -56,13 +51,14 @@ services:
       - WILLOW_ADMIN_EMAIL=admin@test.com
       - APP_FULL_BASE_URL=http://localhost:6660
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
+      test: ["CMD", "curl", "-f", "http://localhost:80/fpm-ping"]
       interval: 10s
       timeout: 5s
 
   db:
     image: mariadb:11.4-noble  #LTS Long Time Support Until May 29, 2029.
     container_name: db
+    hostname: db
     security_opt:
       - no-new-privileges:true
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-read-only-compressed=OFF
@@ -85,7 +81,7 @@ services:
     ports:
       - 6662:80
     environment:
-      - PMA_HOST=db
+      - PMA_HOST=willowcms-db
       - PMA_PORT=3306
       - DB_DATABASE=cms
       - DB_USERNAME=cms_user
@@ -162,6 +158,7 @@ services:
       - willowcms
 
 
+
 volumes:
   mysql:
     driver: local
@@ -177,3 +174,8 @@ volumes:
   adminer_data:
   adminer_sql:
 
+
+# Append this to the end of your docker-compose-port.yml
+networks:
+  default:
+    driver: bridge
